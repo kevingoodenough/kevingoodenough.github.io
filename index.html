@@ -1,0 +1,46 @@
+<html>
+<script src='https://d3js.org/d3.v5.min.js'></script>
+<style>
+    circle {
+        fill: lightblue;
+        stroke: black;
+    }
+</style>
+    <body onload='init()'>
+        <svg width=500 height=500>
+        </svg>
+        <script>
+            async function init() {
+                const data = await d3.csv('http://kevingoodenough.com/resources/summer.csv');
+
+                var svg = d3.select("svg");
+                xdomain = [1896, 2012];
+                xrange = [0, 400];
+                ydomain = [0, 100];
+                yrange = [400, 0];
+
+                xs = d3.scaleLog().domain(xdomain).range(xrange);
+                ys = d3.scaleLog().domain(ydomain).range(yrange);
+
+                /*
+                svg.append("g")
+                    .attr("transform", "translate(50,50)")
+                    .selectAll("circle")
+                    .data(data) 
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function (d) { return xs(d.AverageCityMPG); })
+                    .attr("cy", function (d) { return ys(d.AverageHighwayMPG); })
+                    .attr("r", function (d) { return parseInt(d.EngineCylinders) + 2; });
+                */
+                d3.select("svg").append("g")
+                    .attr("transform", "translate(50,50)")
+                    .call(d3.axisLeft(ys).tickValues([25, 50, 75, 100]))
+
+                d3.select("svg").append("g")
+                    .attr("transform", "translate(50,450)")
+                    .call(d3.axisBottom(xs).tickValues([1896, 1925, 1975, 2012]))
+            }
+        </script>
+    </body>
+</html>
