@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+svg {
+    position: absolute;
+}
+
+.wrapper {
+    width: 100%;
+    display: grid;
+    grid-gap: 0;
+    grid-template-columns: 20% 1250px auto;
+    grid-template-rows: 100px 500px ;
+}
+
+.grid-item {
+    text-align: center;
+}
+
+.header {
+    grid-column-start: 1 ;
+    grid-column-end: 4 ;
+    background-color: blanchedalmond;
+}
+
+.chart-left {
+    
+    background-color: burlywood;
+}
+.chart {
+    background-color: aqua;
+}
+
+.chart-title {
+    padding-left: 80px;
+}
+
+.chart-right {
+    
+    background-color: cadetblue;
+}
