@@ -4,15 +4,14 @@ body {
 }
 
 svg {
-    position: absolute;
-}
+    position: absolute;}
 
 .wrapper {
     width: 100%;
     display: grid;
     grid-gap: 0;
     grid-template-columns: 20% 1250px auto;
-    grid-template-rows: 100px 500px ;
+    grid-template-rows: 100px 500px 100px;
 }
 
 .grid-item {
@@ -40,4 +39,48 @@ svg {
 .chart-right {
     
     background-color: cadetblue;
+}
+
+.slidecontainer {
+    width: 100%;
+    grid-column-start: 2 ;
+    grid-column-end: 3 ;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 75%; 
+  height: 25px; 
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7; 
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1; 
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px; 
+  height: 25px;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; 
+  height: 25px;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+.year-display {
+    display: inline;
+    grid-column-start: 3 ;
+    grid-column-end: 3 ;
 }

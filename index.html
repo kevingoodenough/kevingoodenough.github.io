@@ -1,11 +1,11 @@
 <html>
 <script src='https://d3js.org/d3.v5.min.js'></script>
 <link rel="stylesheet" href="style.css">
-    <body onload='init()'>
+    <body onload='chart1()'>
         <div class="wrapper">
             <div class="header"><h2>Header</h2></div>
             <div class="chart-left">
-                <button type="button" onclick='init()' id="b1">Chart 1</button>
+                <button type="button" onclick='chart1()' id="b1">Chart 1</button>
                 <button type="button" onclick='chart2()' id="b2">Chart 2</button>
                 <button type="button" onclick='chart3()' id="b3">Chart 3</button>
             </div>
@@ -18,25 +18,35 @@
             <div class="chart-right">
                 <h2>Right</h2>
             </div>
-        </div>
-        
-        
-        
-
-        <div>
-            
-        </div>
-
-        
-
-        <div>
-            <svg width=1250 height=500 id="chart3"></svg>
+            <div class="slidecontainer">
+                <input type="range" min="1896" max="2012" value="2012" step="4" class="slider" id="myRange" list="year-list">
+                <p class="year-display">year: <span id="demo"></span></p>
+            </div>
+            <div ></div>
         </div>
         
         <script>
+            var year = 2012;
+            var slider = document.getElementById("myRange");
+                var output = document.getElementById("demo");
+                output.innerHTML = slider.value; // Display the default slider value
+
+                // Update the current slider value (each time you drag the slider handle)
+                slider.oninput = function () {
+                    if (this.value === 1944)
+                        this.value = 1948;
+                    if (this.value === 1940)
+                        this.value = 1936;
+                    if (this.value === 1916)
+                        this.value = 1912;
+                    output.innerHTML = this.value;
+                    year = this.value;
+                    d3.select("#chart3").html("");
+                    chart3();
+                }
             
             
-            async function init() {
+            async function chart1() {
                 d3.select("#chart2").html("");
                 d3.select("#chart3").html("");
 
@@ -174,7 +184,7 @@
                 d3.select("#chart1").html("");
                 d3.select("#chart2  ").html("");
                 
-                var year = 2008;
+                
                 
                 var svg = d3.select("#chart3"),
                     margin = 200,
@@ -207,11 +217,20 @@
                 
                 var countryCount = [];
                 var countryNames = [];
-
-                for (let i=0; i<30; i++) {
-                    countryCount.push(countrySort[i][1]);
-                    countryNames.push(countrySort[i][0]);
+                
+                if(countrySort.length < 30) {
+                    for (let i = 0; i < countrySort.length; i++) {
+                        countryCount.push(countrySort[i][1]);
+                        countryNames.push(countrySort[i][0]);
+                    }
+                } else {
+                    for (let i = 0; i < 30; i++) {
+                        countryCount.push(countrySort[i][1]);
+                        countryNames.push(countrySort[i][0]);
+                    }
                 }
+                
+                
                 //COUNTRY COUNT FOR FILTER
 
                 //FILTER DATA BASED ON TOP 30 COUNTRIES
@@ -250,8 +269,10 @@
                     .attr("width", xScale.bandwidth())
                     .attr("height", function (d) { return height - yScale(countryCount[countryNames.indexOf(d.Country)]); });
 
-                document.getElementById("chart-title").innerHTML = `Top 30 Countries - ${year}`;
+                document.getElementById("chart-title").innerHTML = `Top Performing Countries - ${year}`;
             }
+
+
         </script>
     </body>
 </html>
