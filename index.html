@@ -1,5 +1,7 @@
 <html>
 <script src='https://d3js.org/d3.v5.min.js'></script>
+<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+
 <link rel="stylesheet" href="style.css">
     <body onload='chart1()'>
         <div class="wrapper">
@@ -18,11 +20,18 @@
             <div class="chart-right">
                 <h2>Right</h2>
             </div>
+            <div class="slide-left"></div>
             <div class="slidecontainer">
+                <p class="year-display" id="year-display">year: <span id="demo"></span></p>
                 <input type="range" min="1896" max="2012" value="2012" step="4" class="slider" id="myRange" list="year-list">
-                <p class="year-display">year: <span id="demo"></span></p>
+                <svg width=250 height=250 id="slide-annotation"></svg>
             </div>
-            <div ></div>
+            <div class="slide-right">
+                
+            </div>
+        </div>
+        <div class="tutorial">
+            
         </div>
         
         <script>
@@ -49,6 +58,8 @@
             async function chart1() {
                 d3.select("#chart2").html("");
                 d3.select("#chart3").html("");
+                document.getElementById("myRange").style.visibility = "hidden";
+                document.getElementById("year-display").style.visibility = "hidden";
 
                 function metalCount(dta, cntry) {
                     return dta.filter(function (d) { return d.Country == cntry }).length;
@@ -117,6 +128,8 @@
 
                 d3.select("#chart1").html("");
                 d3.select("#chart3").html("");
+                document.getElementById("myRange").style.visibility = "hidden";
+                document.getElementById("year-display").style.visibility = "hidden";
 
                 function numCountries(yr, dta) {
                     var tempData = dta.filter(function (d) { return d.Year == yr });
@@ -183,8 +196,8 @@
             async function chart3() {
                 d3.select("#chart1").html("");
                 d3.select("#chart2  ").html("");
-                
-                
+                document.getElementById("myRange").style.visibility = "visible";
+                document.getElementById("year-display").style.visibility = "visible";
                 
                 var svg = d3.select("#chart3"),
                     margin = 200,
@@ -270,6 +283,42 @@
                     .attr("height", function (d) { return height - yScale(countryCount[countryNames.indexOf(d.Country)]); });
 
                 document.getElementById("chart-title").innerHTML = `Top Performing Countries - ${year}`;
+                
+                var svgAnn = d3.select("#slide-annotation"),
+                    margin = 0,
+                    width = svg.attr("width") - margin,
+                    height = svg.attr("height") - margin;
+                
+                var gAnn = svgAnn.append("g")
+                    .attr("transform", "translate(" + 0 + "," + 0 + ")");
+
+                const annotations = [
+                    {
+                        note: {
+                            label: "Explore from 1896-2012",
+                            title: "Move the slider around!"
+                        },
+                        connector: {
+                            end: "arrow",
+                            type: "curve",  
+                            points: 3,
+                            lineType: "horizontal"    
+                               
+                        },
+                        color: ["grey"],
+                        x: 10,
+                        y: 15,
+                        dy: 70,
+                        dx: 70
+                    }
+                ]
+
+                // Add annotation to the chart
+                const makeAnnotations = d3.annotation()
+                    .annotations(annotations)
+                gAnn.append("g")
+                    .call(makeAnnotations)
+                
             }
 
 
