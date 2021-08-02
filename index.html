@@ -5,11 +5,12 @@
 <link rel="stylesheet" href="style.css">
     <body onload='chart1()'>
         <div class="wrapper">
-            <div class="header"><h2>Header</h2></div>
+            <div class="header">
+                <h1>The Summer Olympics</h1>
+                <p>1896 - 2012</p>
+            </div>
             <div class="chart-left">
-                <button type="button" onclick='chart1()' id="b1">Chart 1</button>
-                <button type="button" onclick='chart2()' id="b2">Chart 2</button>
-                <button type="button" onclick='chart3()' id="b3">Chart 3</button>
+                <p id="info">dfvlkjhsdflkgjhsdflgkjhsldfkgjhsldfkjghslkdfjhgkj glskdjfhgl skjdhfglkjshdlfgk jsldkfjghsldkfjhfghjls kdjfhg sdf</p>
             </div>
             <div class="chart">
                 <h2 class="chart-title" id="chart-title"></h2>
@@ -18,7 +19,9 @@
                 <svg width=1250 height=500 id="chart3"></svg>
             </div>
             <div class="chart-right">
-                <h2>Right</h2>
+                <button class="button" type="button" onclick='chart1()' id="b1">Start Over</button>
+                <button class="button" type="button" onclick='chart2()' id="b2">Next</button>
+                <button class="button" type="button" onclick='chart3()' id="b3">Next</button>
             </div>
             <div class="slide-left"></div>
             <div class="slidecontainer">
@@ -26,19 +29,17 @@
                 <input type="range" min="1896" max="2012" value="2012" step="4" class="slider" id="myRange" list="year-list">
                 <svg width=250 height=250 id="slide-annotation"></svg>
             </div>
-            <div class="slide-right">
-                
+            <div class="footer">
+            
             </div>
         </div>
-        <div class="tutorial">
-            
-        </div>
+        
         
         <script>
             var year = 2012;
             var slider = document.getElementById("myRange");
                 var output = document.getElementById("demo");
-                output.innerHTML = slider.value; // Display the default slider value
+                output.innerHTML = slider.value;
 
                 // Update the current slider value (each time you drag the slider handle)
                 slider.oninput = function () {
@@ -61,6 +62,10 @@
                 d3.select("#slide-annotation").html("");
                 document.getElementById("myRange").style.visibility = "hidden";
                 document.getElementById("year-display").style.visibility = "hidden";
+                document.getElementById("b1").style.visibility = "hidden";
+                document.getElementById("b2").style.visibility = "visible";
+                document.getElementById("b3").style.visibility = "hidden";
+                
 
                 function metalCount(dta, cntry) {
                     return dta.filter(function (d) { return d.Country == cntry }).length;
@@ -123,6 +128,7 @@
                 //***** CHART 1 END ******
 
                 document.getElementById("chart-title").innerHTML = `The First Summer Olympic Games - 1896`;
+                document.getElementById("info").innerHTML = "The Summer Olympics began in 1896 in Athens, Greece.  There were only eleven countries competing at the time.  Greece took first followed by Germany and then the USA.  Here are a few fun facts about the Summer Olympics.  Figure skating was first held in the Summer Olympics in 1924.  When the games began, instead of a few weeks as we are used to now, the competition would last for a few months.  Originally, art was a part of the competition and metals were awarded for painting, sculpture, architecture, and literature.";
             }
 
             async function chart2() {
@@ -132,6 +138,9 @@
                 d3.select("#slide-annotation").html("");
                 document.getElementById("myRange").style.visibility = "hidden";
                 document.getElementById("year-display").style.visibility = "hidden";
+                document.getElementById("b1").style.visibility = "hidden";
+                document.getElementById("b2").style.visibility = "hidden";
+                document.getElementById("b3").style.visibility = "visible";
 
                 function numCountries(yr, dta) {
                     var tempData = dta.filter(function (d) { return d.Year == yr });
@@ -193,6 +202,7 @@
                     .attr("height", function (d) { return height - yScale(countryNum[years.indexOf(d.Year)]); });
 
                 document.getElementById("chart-title").innerHTML = `Number Of Competing Countries Through The Years`;
+                document.getElementById("info").innerHTML = "Throughout the years many things have changed with the Summer Olympic games.  One of the most notable is the number of countries that participate.  As this chart demonstrates, the number of countries has gradually been increasing since 1896 where there were only eleven.  Now, as you most likely know, almost every country in the world is in some way a part of the Olympic Games.  Another interesting fact to note is that the Olympic festivities have been very consistent with only a few exceptions.  Most recently, right now in 2021 the 2020 games are underway as they were postponed due to the coronavirus.  Prior to this, the games were only missed three times in the years 1916, 1940, and 1944 due to the two World Wars.";
 
                 // ******** ANNOTATIONS ********
 
@@ -256,6 +266,9 @@
                 d3.select("#chart2  ").html("");
                 document.getElementById("myRange").style.visibility = "visible";
                 document.getElementById("year-display").style.visibility = "visible";
+                document.getElementById("b1").style.visibility = "visible";
+                document.getElementById("b2").style.visibility = "hidden";
+                document.getElementById("b3").style.visibility = "hidden";
                 
                 var svg = d3.select("#chart3"),
                     margin = 200,
@@ -267,7 +280,7 @@
 
                 var count = {};
                 
-                //COUNTRY COUNT FOR FILTER
+                // BEGIN - COUNTRY COUNT FOR FILTER
                 data.forEach(function(d) {
                     var country = d.Country;
                     if (count[country] === undefined) {
@@ -300,9 +313,7 @@
                         countryNames.push(countrySort[i][0]);
                     }
                 }
-                
-                
-                //COUNTRY COUNT FOR FILTER
+                // END - COUNTRY COUNT FOR FILTER
 
                 //FILTER DATA BASED ON TOP 30 COUNTRIES
                 data = data.filter(function (d) { return countryNames.includes(d.Country); });
@@ -341,6 +352,7 @@
                     .attr("height", function (d) { return height - yScale(countryCount[countryNames.indexOf(d.Country)]); });
 
                 document.getElementById("chart-title").innerHTML = `Top Performing Countries - ${year}`;
+                document.getElementById("info").innerHTML = "The chart to the right is open for your exploration.  For each year the Summer Olympics were held, a chart has been put together consisting of the countries which earned the most metals.  You will find the country name abbreviation along the bottom axis and the number of metals earned across the y axis.  The slider below the graph can be adjusted to view the outcomes from the games that have been held between 1896 – 2012.  The countries are sorted starting with those with the most metals.  The number of countries has been filtered down to the top 30 if 30 or more participated in a given year or all who participated if 30 countries or less.  Enjoy!";
 
                 // ******** ANNOTATIONS ********
                 
